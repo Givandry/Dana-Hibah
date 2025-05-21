@@ -4,29 +4,29 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRumahIbadahTable extends Migration
+class CreatePengurusTable extends Migration
 {
     /**
      * Run the migrations.
      */
     public function up()
     {
-        if (!Schema::hasColumn('rumah_ibadah', 'nama_rumah_ibadah')) {
-            Schema::create('rumah_ibadah', function (Blueprint $table) {
+        Schema::create('pengurus', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_rumah_ibadah', 100);
+            $table->string('nama_lengkap', 100);
             $table->string('alamat');
             $table->string('kelurahan', 100);
-            $table->string('kecamatan', 100)->nullable();
+            $table->string('kecamatan', 100);
             $table->string('no_hp', 20)->nullable();
             $table->string('email', 50)->unique();
-            $table->unsignedBigInteger('jenis_id');
+            $table->string('jabatan', 50);
+            $table->unsignedBigInteger('rumah_ibadah_id');
+            $table->string('password');
             $table->timestamps();
 
             // Add foreign key constraint
-            $table->foreign('jenis_id')->references('id')->on('jenis')->onDelete('cascade');
+            $table->foreign('rumah_ibadah_id')->references('id')->on('rumah_ibadah')->onDelete('cascade');
         });
-    }
     }
 
     /**
@@ -34,6 +34,6 @@ class CreateRumahIbadahTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('rumah_ibadah');
+        Schema::dropIfExists('pengurus');
     }
-}
+};
